@@ -1,46 +1,51 @@
-import pinataClient, { PinataClient, PinataPinOptions } from "@pinata/sdk"
-import { IPFSPin } from "../../entities/IPFSPin"
-import { IIPFSProvider } from "../IIPFSProvider"
-import * as fs from "fs"
+import pinataClient, { PinataClient, PinataPinOptions } from "@pinata/sdk";
+import { IPFSPin } from "../../entities/IPFSPin";
+import { IIPFSProvider } from "../IIPFSProvider";
+import * as fs from "fs";
+import * as dotenv from "dotenv";
 
+dotenv.config();
 class PinataIPFSProvider implements IIPFSProvider {
-
-  private pinataSDK: PinataClient
+  private pinataSDK: PinataClient;
 
   constructor() {
     this.pinataSDK = pinataClient(
-      process.env.PINATA_API_KEY, 
+      process.env.PINATA_API_KEY,
       process.env.PINATA_API_SECRET
-    )
+    );
   }
 
-  async generateFromFile(name: string, file: Express.Multer.File): Promise<IPFSPin> {
+  async generateFromFile(
+    name: string,
+    file: Express.Multer.File
+  ): Promise<IPFSPin> {
     try {
-      let response: IPFSPin
+      let response: IPFSPin;
 
-      const readableStreamForFile = fs.createReadStream(file.destination + file.filename);
+      const readableStreamForFile = fs.createReadStream(
+        file.destination + file.filename
+      );
       const options: PinataPinOptions = {
         pinataMetadata: {
-          name: name
+          name: name,
         },
         pinataOptions: {
-          cidVersion: 0
-        }
+          cidVersion: 0,
+        },
       };
 
+      await this.pinataSDK
+        .pinFileToIPFS(readableStreamForFile, options)
+        .then((res) => {
+          response = res;
+        });
 
-      await this.pinataSDK.pinFileToIPFS(readableStreamForFile, options)
-      .then((res) => {
-        response = res
-      })
-
-      return response
-    } catch(e) {
-      console.log(e)
-      throw new Error(e)
+      return response;
+    } catch (e) {
+      console.log(e);
+      throw new Error(e);
     }
   }
-
 }
 
-export { PinataIPFSProvider }
+export { PinataIPFSProvider };

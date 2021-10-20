@@ -1,14 +1,14 @@
-import multer from "multer"
+import multer from "multer";
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./src/tmp/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
-})
+  },
+});
 
-const uploads = multer({storage: storage})
+const uploads = multer({ storage: storage });
 
-export default uploads
+export default uploads;

@@ -10,6 +10,14 @@ generator client {
 model Asset {
   id String @id
   name String
+  description String
   image String
   ipfs_token String @unique
+  nfts NFT[]
+}
+
+model NFT {
+  id String @id
+  assetId String
+  asset Asset @relation(references: [id], fields: [assetId])
 }

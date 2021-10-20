@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = require("express");
+const asset_routes_1 = require("./asset.routes");
+const nft_routes_1 = require("./nft.routes");
+const router = (0, express_1.Router)();
+exports.router = router;
+router.use("/asset", asset_routes_1.AssetRouter);
+router.use("/nft", nft_routes_1.NFTRouter);

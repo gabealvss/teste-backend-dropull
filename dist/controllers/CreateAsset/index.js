@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createAssetController = exports.createAssetCase = void 0;
+const PinataIPFSProvider_1 = require("../../providers/implementation/PinataIPFSProvider");
+const PrismaAssetRepository_1 = require("../../repositories/implementation/PrismaAssetRepository");
+const CreateAssetController_1 = require("./CreateAssetController");
+const CreateAssetUseCase_1 = require("./CreateAssetUseCase");
+const prismaAssetRepo = new PrismaAssetRepository_1.PrismaAssetRepository();
+const pinataIPFSProvider = new PinataIPFSProvider_1.PinataIPFSProvider();
+const createAssetCase = new CreateAssetUseCase_1.CreateAssetUseCase(prismaAssetRepo, pinataIPFSProvider);
+exports.createAssetCase = createAssetCase;
+const createAssetController = new CreateAssetController_1.CreateAssetController(createAssetCase);
+exports.createAssetController = createAssetController;

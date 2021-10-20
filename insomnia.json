@@ -1,0 +1,181 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2021-10-20T04:56:14.919Z",
+  "__export_source": "insomnia.desktop.app:v2021.5.3",
+  "resources": [
+    {
+      "_id": "req_4ddc9a3a7de14124b92dffb89c8cf447",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634705452873,
+      "created": 1634705082133,
+      "url": "http://localhost:4000/api/v1/nft",
+      "name": "List NFTs",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1634704020141,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "parentId": null,
+      "modified": 1634697150496,
+      "created": 1634697150496,
+      "name": "NFT API",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_25e0ffdd22de4a4eb31e656fb5b17fc7",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634703902747,
+      "created": 1634702958149,
+      "url": "http://localhost:4000/api/v1/nft",
+      "name": "Create NFT",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"quantity\": 1,\n\t\"asset\": \"c127a4a3-664d-4717-bbdb-fe6070c5ecfd\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_186f778312eb48d2b98df82ce9841fc4"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1634702958149,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_581504c2b3554b92b0a0b7eb9891c5fb",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634698504947,
+      "created": 1634698497848,
+      "url": "http://localhost:4000/api/v1/asset",
+      "name": "List Assets",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1634698497848,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_22b636f6de8447fca3bfbeab794ba61a",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634700295642,
+      "created": 1634697156988,
+      "url": "http://localhost:4000/api/v1/asset",
+      "name": "Create Asset",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_479da3956e304ab5a43eb36f44407b17",
+            "name": "name",
+            "value": "Teste",
+            "description": ""
+          },
+          {
+            "id": "pair_7b4c202070a144f3be3ea18e0d688f80",
+            "name": "image",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "/home/gabealvss/Downloads/king (1).png"
+          },
+          {
+            "id": "pair_0f3719b42f3141bbb14f02bf96a60ed0",
+            "name": "description",
+            "value": "Asset Teste",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data",
+          "id": "pair_341ed95df3284e6c8ac5f1eed06fb6c2"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1634697156988,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_f4e06b82b76e07d1b591a4323e22b2a66050fda7",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634697150504,
+      "created": 1634697150504,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1634697150504,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_f4e06b82b76e07d1b591a4323e22b2a66050fda7",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634697150507,
+      "created": 1634697150507,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_62388956fe694734b0eb5c0bfd0cdfc7",
+      "parentId": "wrk_93354fdaba964586809c8cc8e7f437c6",
+      "modified": 1634697150498,
+      "created": 1634697150498,
+      "fileName": "NFT API",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}

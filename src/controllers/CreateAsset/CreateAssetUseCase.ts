@@ -10,13 +10,15 @@ class CreateAssetUseCase {
   ) {}
 
   async exec(payload: ICreateAssetDTO) {
-    const ipfs_token = (await this.ipfsProvider.generateFromFile(payload.name, payload.image)).IpfsHash
-    payload.ipfs_token = ipfs_token
+    const ipfs_token = (
+      await this.ipfsProvider.generateFromFile(payload.name, payload.image)
+    ).IpfsHash;
+    payload.ipfs_token = ipfs_token;
 
-    const asset = new Asset(payload)
+    const asset = new Asset(payload);
 
-    return await this.assetRepo.save(asset)
+    return await this.assetRepo.save(asset);
   }
 }
 
-export { CreateAssetUseCase }
+export { CreateAssetUseCase };

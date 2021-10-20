@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createNftController = exports.createNftCase = void 0;
+const PrismaNFTRepository_1 = require("../../repositories/implementation/PrismaNFTRepository");
+const CreateNFTController_1 = require("./CreateNFTController");
+const CreateNFTUseCase_1 = require("./CreateNFTUseCase");
+const prismaNftRepo = new PrismaNFTRepository_1.PrismaNFTRepository();
+const createNftCase = new CreateNFTUseCase_1.CreateNFTUseCase(prismaNftRepo);
+exports.createNftCase = createNftCase;
+const createNftController = new CreateNFTController_1.CreateNFTController(createNftCase);
+exports.createNftController = createNftController;
