@@ -2,5 +2,6 @@ node_modules
 .env
 yarn-error.log
 yarn.lock
-src/tmp/
-src/prisma/migrations
+dist
+coverage
+src/prisma
