@@ -7,9 +7,9 @@ Além de um teste, espero que este repo sirva como objeto de estudo para outros 
 ## Glossário
 
  - [Instalação](#install)
- - [Uso](usage)
- - [Headers, Verbos e Status Codes](design)
- - [Endpoints e Exemplos](endpoints)
+ - [Uso](#usage)
+ - [Headers, Verbos e Status Codes](#design)
+ - [Endpoints e Exemplos](#endpoints)
 
 ## <a name="install"></a>Instalação
 
