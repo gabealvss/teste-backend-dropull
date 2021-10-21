@@ -1,4 +1,4 @@
-﻿# Teste Prático - Back End Engineer - DROPULL.GG
+# Teste Prático - Back End Engineer - DROPULL.GG
 ## Primeiramente, olá!
 
 Olá! Este é o repositório público do teste realizado para a vaga de Back-End SWE na Dropull.gg.
@@ -6,142 +6,112 @@ Além de um teste, espero que este repo sirva como objeto de estudo para outros 
 
 ## Glossário
 
- - Instalação
- - Headers e Verbos
- - Endpoints
- - Códigos de Erros
+ - [Instalação](#install)
+ - [Uso](usage)
+ - [Headers, Verbos e Status Codes](design)
+ - [Endpoints e Exemplos](endpoints)
 
-## Instalação
+## <a name="install"></a>Instalação
 
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
+O processo de instalação da aplicação é simples. Utilize seu gerenciador de pacotes favorito (npm/yarn, etc...) para instalação das dependências.
+Após a instalação dos pacotes, utilize o script **migrate** para geração dos arquivos de migração com o Prisma.
 
-## Switch to another file
+Exemplo:
 
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
+    yarn migrate
 
-## Rename a file
+## <a name="usage"></a>Uso
 
-You can rename the current file by clicking the file name in the navigation bar or by clicking the **Rename** button in the file explorer.
+Existem alguns scripts pré-definidos para ajudar no processo de manutenção, deploy e desenvolvimento da aplicação. Como exemplo, vamos ver o caso de uso com o Yarn:
 
-## Delete a file
+### Dev Ambient
+O script **dev** inicia um servidor específico para ser utilizado durante o desenvolvimento, utilizando o **Nodemon**.
 
-You can delete the current file by clicking the **Remove** button in the file explorer. The file will be moved into the **Trash** folder and automatically deleted after 7 days of inactivity.
+    yarn dev
 
-## Export a file
+### Tests
+Para rodar os testes unitários/e2e com o Jest, existem dois scripts pré-definidos:
 
-You can export the current file by clicking **Export to disk** in the menu. You can choose to export the file as plain Markdown, as HTML using a Handlebars template or as a PDF.
+    yarn test
+    yarn test:watch
 
+### Linter
+Existem dois scripts responsáveis pela organização e checagem de código. O script lint é responsável por rodar o ESLint nas pastas/arquivos alvo, já o pretify é responsável por reorganizar o design de código de uma forma padrão. providenciando uma checagem completa para um código limpo de problemas.
 
-# Synchronization
+    yarn lint
+    yarn pretify
+    
+### Deploy
+Existem também alguns scripts principais criados para facilitar o deploy e a instalação de novos ambientes:
 
-Synchronization is one of the biggest features of StackEdit. It enables you to synchronize any file in your workspace with other files stored in your **Google Drive**, your **Dropbox** and your **GitHub** accounts. This allows you to keep writing on other devices, collaborate with people you share the file with, integrate easily into your workflow... The synchronization mechanism takes place every minute in the background, downloading, merging, and uploading file modifications.
+    yarn migrate
+    yarn migrate:deploy
+    yarn build
+    yarn start
 
-There are two types of synchronization and they can complement each other:
+## <a name="design"></a>Headers, Verbos e Status Codes
+A API aceita primordialmente dois tipos de Content-Type: JSON e também Multipart/Form-Data para os endpoints onde é necessário o upload de imagens/arquivos.
 
-- The workspace synchronization will sync all your files, folders and settings automatically. This will allow you to fetch your workspace on any other device.
-	> To start syncing your workspace, just sign in with Google in the menu.
+Tenha certeza de definir corretamente os Headers antes de qualquer requisição. Ex.:
 
-- The file synchronization will keep one file of the workspace synced with one or multiple files in **Google Drive**, **Dropbox** or **GitHub**.
-	> Before starting to sync files, you must link an account in the **Synchronize** sub-menu.
+    Content-Type: application/json
 
-## Open a file
+Dentro do possível, a API também busca utilizar o uso correto dos verbos HTTP para cada endpoint:
 
-You can open a file from **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Open from**. Once opened in the workspace, any modification in the file will be automatically synced.
+ - `POST`é utilizado para criar recursos.
+ - `GET`é utilizado para retornar recursos.
+ 
+ ### Códigos de Status
+ No layout da API, temos alguns códigos de Status:
+ 
+ - Tentar realizar uma requisição com parâmetros incompletos resultará num código de erro `400`.
+ - Quando houver um erro interno com algum dos serviços (banco de dados ou Pinata), a aplicação retornará um erro `500` com uma mensagem detalhada do problema.
+ - Endpoints com o objetivo de criação de recursos sempre retornarão o código `201`quando executados com sucesso.
+ - Endpoints com o objetivo de retorno de recursos sempre retornarão o código `200`quando executados com sucesso.
 
-## Save a file
+## <a name="endpoints"></a>Endpoints
+Para testar os Endpoints você executar a aplicação na sua máquina utilizando tanto o comando `start`como `dev`, ou utilizar o endpoint de exemplo hospedado no Heroku: https://nft-dropull.herokuapp.com/
 
-You can save any file of the workspace to **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Save on**. Even if a file in the workspace is already synced, you can save it to another location. StackEdit can sync one file with multiple locations and accounts.
+**OBS**: o endpoint de upload de assets (`POST`/asset) não funcionará no ambiente de testes do Heroku devido ao ambiente não lidar com storage. Para isto, existem alguns assets pré-definidos no banco de dados para uso nos outros endpoints.
 
-## Synchronize a file
+Para um melhor controle de versionamento, todas as requisições devem ser feitas partindo do diretório `/api/v1/`. Ex.: `POST https://nft-dropull.herokuapp.com/api/v1/nft`
 
-Once your file is linked to a synchronized location, StackEdit will periodically synchronize it by downloading/uploading any modification. A merge will be performed if necessary and conflicts will be resolved.
+Caso queira realizar os testes utilizando aplicações HTTP como o Insomnia, existe um arquivo no diretório raiz chamado `insomnia.json`, basta importa-lo na aplicação para ter acesso a um mock de todas as requests e endpoints da API.
 
-If you just have modified your file and you want to force syncing, click the **Synchronize now** button in the navigation bar.
+### POST /asset
+`POST https://nft-dropull.herokuapp.com/api/v1/asset`
 
-> **Note:** The **Synchronize now** button is disabled if you have no file to synchronize.
+Este endpoint é responsável por lidar com a criação, registro e upload de novos assets no Pinata.
 
-## Manage file synchronization
+**Payload:**
 
-Since one file can be synced with multiple locations, you can list and manage synchronized locations by clicking **File synchronization** in the **Synchronize** sub-menu. This allows you to list and remove synchronized locations that are linked to your file.
+ - `name`: uma string contendo o nome do novo asset.
+ - `description:`uma string contendo a descrição para o novo asset.
+ - `image`: o arquivo de imagem a ser criado.
+ Em casos de sucesso, o endpoint retornará um objeto `asset`com as informações do Asset recém criado.
 
+### GET /asset
+`GET https://nft-dropull.herokuapp.com/api/v1/asset`
 
-# Publication
+Este endpoint é responsável por retornar todos os assets presentes na aplicação.
 
-Publishing in StackEdit makes it simple for you to publish online your files. Once you're happy with a file, you can publish it to different hosting platforms like **Blogger**, **Dropbox**, **Gist**, **GitHub**, **Google Drive**, **WordPress** and **Zendesk**. With [Handlebars templates](http://handlebarsjs.com/), you have full control over what you export.
+Em casos de sucesso, o endpoint retornará uma array contendo objetos `asset`com os dados necessários.
 
-> Before starting to publish, you must link an account in the **Publish** sub-menu.
+### POST /nft
+`POST https://nft-dropull.herokuapp.com/api/v1/nft`
 
-## Publish a File
+Este endpoint é responsável por lidar com a criação de novos NFTs baseado em quantidade e assets.
 
-You can publish your file by opening the **Publish** sub-menu and by clicking **Publish to**. For some locations, you can choose between the following formats:
+**Payload:**
 
-- Markdown: publish the Markdown text on a website that can interpret it (**GitHub** for instance),
-- HTML: publish the file converted to HTML via a Handlebars template (on a blog for example).
+ - `quantity`: um number contendo a quantidade de NFTs únicos a serem criados baseado no asset.
+ - `asset:`o ID do asset a ser vinculado ao NFT.
 
-## Update a publication
+Em casos de sucesso, o endpoint retornará um objeto nft contendo as informações do NFT recém criado.
 
-After publishing, StackEdit keeps your file linked to that publication which makes it easy for you to re-publish it. Once you have modified your file and you want to update your publication, click on the **Publish now** button in the navigation bar.
+### GET /nft
+`GET https://nft-dropull.herokuapp.com/api/v1/nft`
 
-> **Note:** The **Publish now** button is disabled if your file has not been published yet.
+Este endpoint é responsável por retornar todos os nfts presentes na aplicação.
 
-## Manage file publication
-
-Since one file can be published to multiple locations, you can list and manage publish locations by clicking **File publication** in the **Publish** sub-menu. This allows you to list and remove publication locations that are linked to your file.
-
-
-# Markdown extensions
-
-StackEdit extends the standard Markdown syntax by adding extra **Markdown extensions**, providing you with some nice features.
-
-> **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
-
-
-## SmartyPants
-
-SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
-
-|                |ASCII                          |HTML                         |
-|----------------|-------------------------------|-----------------------------|
-|Single backticks|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|Quotes          |`"Isn't this fun?"`            |"Isn't this fun?"            |
-|Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
-
-
-## KaTeX
-
-You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
-
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
-
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
-
-> You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
-
-
-## UML diagrams
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
+Em casos de sucesso, o endpoint retornará uma array contendo objetos `nft`com os dados necessários.
